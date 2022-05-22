@@ -1,3 +1,6 @@
+// This is just a data file containing the configuration 
+// required to communicate to firebase.
+
 export const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: "tapdm3.firebaseapp.com",
