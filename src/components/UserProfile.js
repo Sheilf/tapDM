@@ -1,40 +1,58 @@
 
 import React, { useEffect, useState } from 'react';
-
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 
 import '../database/firebase';
-import { auth, db } from '../database/firebase';
+import { firebaseAuth, firestoreDB } from '../database/firebase';
+import { CenterColumnWithFlexbox, CenterThePage } from '../styles/globalStyles';
 
 
+//Display the initial page after a user logs in.
 let UserProfile = () => {
 
-
+  // initiate a database reference for user data that you will store to the database
   let USERS;
 
-
-
+  // initiate a react state variable to use as variable that may change before storing or updating the database
   const [dbUser, setDbUser] = useState({});
 
-  // mounting 
+  // start the component
   useEffect(() => {
-    USERS = db.collection("users");
-    auth.onAuthStateChanged(user=>{
-      console.log("userprofile", user)
+
+    //get the collection of users stored in the database
+    USERS = firestoreDB.collection("users");
+
+    //this process will run since you've logged in.
+    // It will grant you basic data about the user that just logged in.
+    // this data can be used to define the user by user ID, 
+    // which is how you will identify the user in the database
+    // Firestore uses Collection > document > collection > document > collection ... and so on.
+    // So in this case it's Collection(Users) > Document(userID).
+    // In the future it may grow. Perhaps the user will have a collection of chats with chat ids and so on.
+    firebaseAuth.onAuthStateChanged(user=>{
+
+      // get the user's document based on the users ID
       USERS.doc(user.uid).get().then(doc =>{
         if(doc.data()){
+          // if the user has logged in and been stored before, get the user and update firstVisit to false.
           USERS.doc(user.uid).update({
             firstVisit: false,
           })
         }else{
+          // if the user has never logged in before, create the user in the database. Add "basic first time" data.
+          // in the future we can add more data to make this more welcoming, like "first time? lets show you how to use the app"
           USERS.doc(user.uid).set({
             firstVisit: true,
             displayName: user.displayName
           })
         }
 
-        setDbUser({ uid: user.uid, displayName: user.displayName, photoURL: user.photoURL})
+        // when you're done processing the database, add some data to state so you can display itter
+        setDbUser({ 
+          uid: user.uid, 
+          displayName: user.displayName, 
+          photoURL: user.photoURL
+        })
       })
 
     })
@@ -42,34 +60,31 @@ let UserProfile = () => {
 
   }, [])
 
-  console.log("state", dbUser)
+
+  // display the /profile page: https://tapdm3.web.app/profile
   return (
-    <section style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', minHeight: '100vh' }}>
+    <section style={CenterThePage}>
 
-        <div style={{display: 'flex', flexDirection:"column", justifyContent: 'center', alignItems: 'center' }}>
+        <div style={CenterColumnWithFlexbox}>
           <h1>Welcome to the app</h1>
+
           <h2>{dbUser.displayName}</h2>
+
           <h2>{dbUser.uid}</h2>
+
           <img src={dbUser.photoURL} style={{borderRadius: "50%"}} />
-
           <br />
 
-          <button>Create a chat</button>
-
-          
+          <button>Create a chat</button>          
           <br />
 
 
-          <button>Find a chat</button>
-
-          
+          <button>Find a chat</button>          
           <br />
 
-          
           <h3>Your Chats</h3>
         </div>
 
-       
     </section>
   )
 

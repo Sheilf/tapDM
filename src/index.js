@@ -8,6 +8,9 @@ import { BrowserRouter, Route, Routes} from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// basic routing setup. This will render components or "pages" based on what the address bar says.
+// this is where the app starts. There are many ways you can handle routing dynamically.
+// right now, we are just keeping it super simple.
 root.render(
     <BrowserRouter>
         <Routes>

@@ -8,12 +8,17 @@ import 'firebase/compat/firestore';
 
 
 
-// Initialize Firebase
+// Initialize Firebase - this connects your code to firebase
 const app = firebase.initializeApp(firebaseConfig);
+
+// not used. This connects to the analytics product in firebase.
 const analytics = getAnalytics(app);
 
-// Use these for db & auth
-const db = app.firestore();
-const auth = firebase.auth();
+// this connects to the firestore database.
+const firestoreDB = app.firestore();
 
-export { auth, db };
+// this connects to firebase authentication product.
+const firebaseAuth = firebase.auth();
+
+// export these variables - allow them to be retrieved by other files in your codebase.
+export { firestoreDB, firebaseAuth };
