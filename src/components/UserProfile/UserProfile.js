@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import 'firebase/compat/auth';
 
-import '../database/firebase';
-import { firebaseAuth, firestoreDB } from '../database/firebase';
-import { CenterColumnWithFlexbox, CenterThePage } from '../styles/globalStyles';
+import '../../database/firebase';
+import { firebaseAuth, firestoreDB } from '../../database/firebase';
+import { CenterColumnWithFlexbox, CenterThePage } from '../../styles/globalStyles';
+import { Link } from 'react-router-dom';
 
 
 //Display the initial page after a user logs in.
@@ -15,7 +16,7 @@ let UserProfile = () => {
 
   // initiate a react state variable to use as variable that may change before storing or updating the database
   const [dbUser, setDbUser] = useState({});
-
+  const [chats, setChats] = useState([]);
   // start the component
   useEffect(() => {
 
@@ -38,14 +39,21 @@ let UserProfile = () => {
           USERS.doc(user.uid).update({
             firstVisit: false,
           })
+
+          setChats(doc.data().chats);
+
         }else{
           // if the user has never logged in before, create the user in the database. Add "basic first time" data.
           // in the future we can add more data to make this more welcoming, like "first time? lets show you how to use the app"
           USERS.doc(user.uid).set({
             firstVisit: true,
             displayName: user.displayName
+
           })
+
+  
         }
+
 
         // when you're done processing the database, add some data to state so you can display itter
         setDbUser({ 
@@ -75,7 +83,7 @@ let UserProfile = () => {
           <img src={dbUser.photoURL} style={{borderRadius: "50%"}} />
           <br />
 
-          <button>Create a chat</button>          
+          <Link to="/chat/create">Create chat</Link>          
           <br />
 
 
@@ -83,6 +91,8 @@ let UserProfile = () => {
           <br />
 
           <h3>Your Chats</h3>
+          {chats.map(item => <div>{item}</div>)}
+
         </div>
 
     </section>

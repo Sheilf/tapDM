@@ -13,3 +13,7 @@ export const CenterColumnWithFlexbox = {
     justifyContent: 'center', 
     alignItems: 'center'
 }
+
+export const SideInputLabel = {
+  display: 'flex',
+}

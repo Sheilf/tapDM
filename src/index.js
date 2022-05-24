@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import UserProfile from './components/UserProfile';
+import UserProfile from './components/UserProfile/UserProfile';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import CreateChat from './components/CreateChat/CreateChat';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -16,6 +17,7 @@ root.render(
         <Routes>
             <Route exact path="/" element={<App />}> </Route>
             <Route exact path="/profile" element={<UserProfile />}> </Route>
+            <Route exact path="/chat/create" element={<CreateChat />}> </Route>
         </Routes>
     </BrowserRouter>,
 
