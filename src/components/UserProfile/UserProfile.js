@@ -97,7 +97,7 @@ let UserProfile = () => {
 
           <h3>Your Chats</h3>
 
-          {chats.map(item => <Link to={`/chat/${item}`}>{item}</Link>)}
+          {chats ? chats.map(item => <Link to={`/chat/${item}`}>{item}</Link>) : null}
 
         </div>
 

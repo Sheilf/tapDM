@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import UserProfile from './components/UserProfile/UserProfile';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import CreateChat from './components/CreateChat/CreateChat';
+import Chat from './components/Chat/Chat';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -18,8 +19,9 @@ root.render(
             <Route exact path="/" element={<App />}> </Route>
             <Route exact path="/profile" element={<UserProfile />}> </Route>
             <Route exact path="/chat/create" element={<CreateChat />}> </Route>
+            <Route exact path="/chat/:chatID" element={<Chat />}> </Route>
         </Routes>
-    </BrowserRouter>,
+    </BrowserRouter>
 
   
 );

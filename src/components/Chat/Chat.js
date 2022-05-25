@@ -8,6 +8,7 @@ import { CenterThePage, SideInputLabel } from '../../styles/globalStyles';
 
 
 import { USERS, CHATS, COLLECTIONS } from '../../common/commonElements';
+import { useParams } from 'react-router';
 
 
 
@@ -24,10 +25,12 @@ let CreateChat = () => {
 
 
 
+  const { chatID } = useParams();
 
   return (
     <section style={CenterThePage}>
       <h1>Your Chat</h1>
+      <div>{chatID}</div>
     </section>
   )
 
