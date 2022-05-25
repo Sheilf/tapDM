@@ -40,7 +40,12 @@ let UserProfile = () => {
             firstVisit: false,
           })
 
-          setChats(doc.data().chats);
+          if(doc.data().chats){
+            setChats(doc.data().chats);
+          }else{
+            //do nothing
+          }
+ 
 
         }else{
           // if the user has never logged in before, create the user in the database. Add "basic first time" data.
@@ -91,7 +96,8 @@ let UserProfile = () => {
           <br />
 
           <h3>Your Chats</h3>
-          {chats.map(item => <div>{item}</div>)}
+
+          {chats.map(item => <Link to={`/chat/${item}`}>{item}</Link>)}
 
         </div>
 
