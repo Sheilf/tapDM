@@ -95,8 +95,9 @@ let CreateChat = () => {
    * in the future, we may initiate a collection of messages defined by auto-generated
    * document IDs to store the messages created. Can easily allow for edit/delete.
    * 
-   * 
+   * D) Create an empty user to chat/messages relationship
    * When the process is complete, navigate back to the user profile page.
+   * 
    */
   const createChat = async () => {
 
@@ -118,15 +119,16 @@ let CreateChat = () => {
     
     })
 
-
+    //create an empty user to chat/messages relationship
     CHATS.doc(`${dbUser.uid}-${nameOfChat}`).collection("messages").doc().set({
 
     });
 
+    // create a relationship between users and chats
    await USERS.doc(dbUser.uid).get().then((doc)=>{
 
       if(!doc.data().chats){
-       USERS.doc(dbUser.uid).set({
+        USERS.doc(dbUser.uid).set({
           chats: [`${dbUser.uid}-${nameOfChat}`]
         })
       }else{
