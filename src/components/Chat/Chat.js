@@ -1,29 +1,17 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import 'firebase/compat/auth';
 
 import '../../database/firebase';
-import { firebaseAuth } from '../../database/firebase';
-import { CenterThePage, SideInputLabel } from '../../styles/globalStyles';
 
-
-import { USERS, CHATS, COLLECTIONS } from '../../common/commonElements';
+import { CenterThePage } from '../../styles/globalStyles';
 import { useParams } from 'react-router';
 
 
+// Empty feature we created. Good job, you now have the start of a chat app.
 
-let CreateChat = () => {
-
-
-
-
-  useEffect(() => {
-
-
-
-  }, [])
-
-
+// This chat ID easily lets you link the user that owns it thats stored in the database.
+let Chat = () => {
 
   const { chatID } = useParams();
 
@@ -36,4 +24,4 @@ let CreateChat = () => {
 
 }
 
-export default CreateChat;
+export default Chat;

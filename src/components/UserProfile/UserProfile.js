@@ -14,8 +14,12 @@ let UserProfile = () => {
   // initiate a database reference for user data that you will store to the database
   let USERS;
 
+  //Part 2: Creating Users
   // initiate a react state variable to use as variable that may change before storing or updating the database
   const [dbUser, setDbUser] = useState({});
+
+  // Part 3: Creating a chat feature
+  // renders chats if it exists in the user object
   const [chats, setChats] = useState([]);
   // start the component
   useEffect(() => {
@@ -46,7 +50,6 @@ let UserProfile = () => {
             //do nothing
           }
  
-
         }else{
           // if the user has never logged in before, create the user in the database. Add "basic first time" data.
           // in the future we can add more data to make this more welcoming, like "first time? lets show you how to use the app"
@@ -56,11 +59,11 @@ let UserProfile = () => {
 
           })
 
-  
         }
 
 
-        // when you're done processing the database, add some data to state so you can display itter
+        // when you're done processing the database, add some data to state so you can display a user profile. 
+        // Do not add chats to state unless you wanna do some shiny CSS shit
         setDbUser({ 
           uid: user.uid, 
           displayName: user.displayName, 
@@ -88,6 +91,7 @@ let UserProfile = () => {
           <img src={dbUser.photoURL} style={{borderRadius: "50%"}} />
           <br />
 
+          {/* Clicking this link will send you to the create chat page */}
           <Link to="/chat/create">Create chat</Link>          
           <br />
 
@@ -95,8 +99,18 @@ let UserProfile = () => {
           <button>Find a chat</button>          
           <br />
 
+
           <h3>Your Chats</h3>
 
+          
+          {
+            chats.length === 0 ? <div>You haven't created a chat yet silly goose!</div> : null
+          }
+          {/* 
+
+          This will create a list of links that send you to a chat room based on the ID created
+          
+          */}
           {chats ? chats.map(item => <Link to={`/chat/${item}`}>{item}</Link>) : null}
 
         </div>

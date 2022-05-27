@@ -5,7 +5,9 @@ import '../database/firebase';
 import { firestoreDB } from '../database/firebase';
 
 
-  
+  // these database variables are seperated into another file
+  // because these variables will often be used.
+  // So i might as well just write them once and import it when I need them.
   export let USERS = firestoreDB.collection("users");
   export let CHATS  = firestoreDB.collection("chats");
 
@@ -22,6 +24,7 @@ import { firestoreDB } from '../database/firebase';
     health: firestoreDB.collection("health"),
   }
 
+  // Currently used to just display data for frontend and process a list.
   export const productList = {
 
     socialMedia: {
