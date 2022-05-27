@@ -43,16 +43,16 @@ function App() {
 
 
       <h2 
-        onClick={() =>setIsVisible(true)} 
+        onClick={() => setIsVisible(true)} 
         style = {{
           transition: '0.3s all ease-in-out',
           borderRadius: 6,
-          backgroundColor: 'aquamarine',
+          backgroundColor: '#06c793',
           padding: isHovering ? 16 : 12,
           color: 'white',
         }}
         onMouseEnter={() => setIsHovering(true)}
-        onMouseOut={() => setIsHovering(true)}
+        onMouseOut={() => setIsHovering(false)}
       >
         About 
       </h2>
