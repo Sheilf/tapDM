@@ -39,10 +39,15 @@ let Chat = () => {
         Name of chat: {chatDisplayData.nameOfChat}
       </div>
 
-      <div style={{textAlign: 'center', marginBottom: 12}}>
-        <b>Topics</b> 
-        {chatDisplayData.topics.map(item => (<div>{item}</div>))}
-      </div>
+      { 
+        chatDisplayData.topics ? (
+          <div style={{textAlign: 'center', marginBottom: 12}}>
+            <b>Topics</b> 
+            {chatDisplayData.topics.map(item => (<div>{item}</div>))}
+          </div>
+        ) 
+        : null
+      }
     </section>
   )
 
