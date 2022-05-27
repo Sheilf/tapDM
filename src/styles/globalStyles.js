@@ -31,6 +31,13 @@
  * 
  */
 
+export const transitionVisibility = (isVisible) => {
+  return {
+  transition: '0.3s all ease-in-out',
+  opacity: isVisible ? '1' : '0'
+  }
+}
+
 export const CenterThePage = {
     display: 'flex', 
     flexDirection: 'column', 
