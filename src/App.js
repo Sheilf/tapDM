@@ -50,6 +50,7 @@ function App() {
           backgroundColor: '#06c793',
           padding: isHovering ? 16 : 12,
           color: 'white',
+        
         }}
         onMouseEnter={() => setIsHovering(true)}
         onMouseOut={() => setIsHovering(false)}
@@ -57,7 +58,7 @@ function App() {
         About 
       </h2>
       <div
-        style={transitionVisibility(isVisible)}
+        style={{...transitionVisibility(isVisible), textAlign: 'center'}}
       >
           wiretap people's DMs basically and make it social experience
       </div>
