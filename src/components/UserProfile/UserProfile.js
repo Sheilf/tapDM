@@ -111,7 +111,7 @@ let UserProfile = () => {
           This will create a list of links that send you to a chat room based on the ID created
           
           */}
-          {chats ? chats.map(item => <Link to={`/chat/${item}`}>{item}</Link>) : null}
+          {chats ? chats.map(item => <Link style={{textAlign: 'center'}} to={`/chat/${item}`}>{item}</Link>) : null}
 
         </div>
 
