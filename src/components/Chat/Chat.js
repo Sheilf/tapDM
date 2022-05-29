@@ -28,29 +28,29 @@ let Chat = () => {
 
     })
   })
-  return (
-    <section style={CenterThePage}>
-      <h1>Chat</h1>
-      <div style={{textAlign: 'center', marginBottom: 12 }}>
-        Created by: {chatDisplayData.createdBy}
-      </div>
 
-      <div style={{textAlign: 'center', marginBottom: 12}}>
-        Name of chat: {chatDisplayData.nameOfChat}
-      </div>
+    return (
+      <section style={CenterThePage}>
+        <h1>Chat</h1>
+        <div style={{textAlign: 'center', marginBottom: 12 }}>
+          Created by: {chatDisplayData.createdBy}
+        </div>
 
-      { 
-        chatDisplayData.topics ? (
-          <div style={{textAlign: 'center', marginBottom: 12}}>
-            <b>Topics</b> 
-            {chatDisplayData.topics.map(item => (<div>{item}</div>))}
-          </div>
-        ) 
-        : null
-      }
-    </section>
-  )
+        <div style={{textAlign: 'center', marginBottom: 12}}>
+          Name of chat: {chatDisplayData.nameOfChat}
+        </div>
 
-}
+        { 
+          chatDisplayData.topics ? (
+            <div style={{textAlign: 'center', marginBottom: 12}}>
+              <b>Topics</b> 
+              {chatDisplayData.topics.map(item => (<div>{item}</div>))}
+            </div>
+          ) 
+          : null
+        }
+      </section>
+    )
+  }
 
-export default Chat;
+  export default Chat;
