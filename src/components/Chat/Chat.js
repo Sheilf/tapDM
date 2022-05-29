@@ -6,30 +6,41 @@ import '../../database/firebase';
 
 import { CenterThePage, CenterColumnWithFlexbox } from '../../styles/globalStyles';
 import { useParams } from 'react-router';
-import { USERS, CHATS, COLLECTIONS } from '../../common/commonElements';
+import { CHATS } from '../../common/commonElements';
 
-// Empty feature we created. Good job, you now have the start of a chat app.
 
-// This chat ID easily lets you link the user that owns it thats stored in the database.
 let Chat = () => {
 
+  // references the chat that belongs to the list of public chat collections
   const { chatID } = useParams();
+
+  // displays basic data about the chat
   const [chatDisplayData, setChatDisplayData] = useState({})
   
+  // state responsible for typing events or the DM you want to send
   const [updateDM, setUpdateDM] = useState('');
+
+  // set of messages that belong to the chat
   const [messages, setMessages] = useState([]);
 
 
+
+  /**
+   * @description this functions goes through each message document in the database and sets it to * state for rendering
+   */
   const getAndSetMessages = () => {
     CHATS.doc(chatID).collection("messages").get().then((querySnapshot) =>{
       const messages = querySnapshot.docs.map((doc)=>{
-        return { id: doc.id, ...doc.data() }
+        return { id: doc.id, message: doc.data().message }
       })
 
       setMessages(messages)
     })
   }
 
+  // this mounts the component, or runs processes before initial render
+  // A) we get basic data about the chat
+  // B) we set a database listener. If the message collection ever updates, we update the screen
   useEffect(() => {
     CHATS.doc(chatID).get().then((document)=> {
       const { createdBy, nameOfChat, topics } = document.data()
@@ -45,7 +56,7 @@ let Chat = () => {
     CHATS.doc(chatID).collection("messages").onSnapshot((querySnapshot)=>{
       var messages = [];
       querySnapshot.forEach((doc) => {
-        return { id: doc.id, ...doc.data() }
+        messages.push({ id: doc.id, message: doc.data().message })
       });
 
       setMessages(messages)
@@ -54,22 +65,18 @@ let Chat = () => {
 
   }, [])
 
-  useEffect(() => {
-    getAndSetMessages();
 
-  }, [messages])
-
-
-
+  // runs a process to update list of collections with a new update.
   const sendDM = (event) => {
 
-    console.log("event.target.value");
-    CHATS.doc(chatID).collection("messages").doc().set({message: updateDM})
+    CHATS.doc(chatID).collection("messages").doc().set({message: updateDM}).then(()=>{
+      getAndSetMessages();
+    })
 
   }
 
 
-
+  //renders the chat's data, list of messages owned by the chat, and the input to create DMs.
   return (
     <section style={CenterThePage}>
       <h1>Chat</h1>

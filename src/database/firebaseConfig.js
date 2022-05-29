@@ -3,11 +3,11 @@
 
 export const firebaseConfig = {
     // apiKey: process.env.REACT_APP_API_KEY,
-    apiKey:"AIzaSyDrDtC3zLE8VPHtSQjC2giaEAP2M1NXmLY",
-    authDomain: "tapdm3.firebaseapp.com",
-    projectId: "tapdm3",
-    storageBucket: "tapdm3.appspot.com",
-    messagingSenderId: "818353276964",
-    appId: "1:818353276964:web:524e672d4286e13e1bb0b1",
-    measurementId: "G-RM1ZCHHDEZ"
+  apiKey: "AIzaSyB8H0rgMt4N-65_qc6OD0ItAVC9u-8IUOM",
+  authDomain: "tapdm2.firebaseapp.com",
+  projectId: "tapdm2",
+  storageBucket: "tapdm2.appspot.com",
+  messagingSenderId: "575907028422",
+  appId: "1:575907028422:web:63dcb3b1b7677bf6c7e6c7",
+  measurementId: "G-F9TQWQJ6N5"
   };
