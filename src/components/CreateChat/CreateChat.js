@@ -121,7 +121,7 @@ let CreateChat = () => {
 
     //create an empty user to chat/messages relationship
     CHATS.doc(`${dbUser.uid}-${nameOfChat}`).collection("messages").doc().set({
-
+      dateCreated: Date.now(),
     });
 
     // create a relationship between users and chats
