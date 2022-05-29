@@ -30,11 +30,11 @@ let Chat = () => {
    */
   const getAndSetMessages = () => {
     CHATS.doc(chatID).collection("messages").get().then((querySnapshot) =>{
-      const messages = querySnapshot.docs.map((doc)=>{
+      const dbMessages = querySnapshot.docs.map((doc)=>{
         return { id: doc.id, message: doc.data().message }
       })
 
-      setMessages(messages)
+      setMessages(dbMessages)
     })
   }
 
@@ -54,12 +54,12 @@ let Chat = () => {
     })
 
     CHATS.doc(chatID).collection("messages").onSnapshot((querySnapshot)=>{
-      var messages = [];
+      const dbMessages = [];
       querySnapshot.forEach((doc) => {
-        messages.push({ id: doc.id, message: doc.data().message })
+        dbMessages.push({ id: doc.id, message: doc.data().message })
       });
 
-      setMessages(messages)
+      setMessages(dbMessages)
 
     })
 

@@ -6,6 +6,7 @@ import '../../database/firebase';
 import { firebaseAuth, firestoreDB } from '../../database/firebase';
 import { CenterColumnWithFlexbox, CenterThePage } from '../../styles/globalStyles';
 import { Link } from 'react-router-dom';
+import { CHATS } from '../../common/commonElements';
 
 
 //Display the initial page after a user logs in.
@@ -20,7 +21,9 @@ let UserProfile = () => {
 
   // Part 3: Creating a chat feature
   // renders chats if it exists in the user object
-  const [chats, setChats] = useState([]);
+  const [usersChats, setChats] = useState([]);
+
+  const [publicChats, setPublicChats] = useState([]);
   // start the component
   useEffect(() => {
 
@@ -71,6 +74,15 @@ let UserProfile = () => {
         })
       })
 
+      CHATS.get().then((querySnapshot)=>{
+        const publicChatrooms = querySnapshot.docs.map((doc)=>{
+          const { createdBy, nameOfChat, topics, dateCreated } = doc.data()
+          return { id: doc.id, createdBy, nameOfChat, topics, dateCreated }
+        })
+
+        setPublicChats(publicChatrooms)
+      })
+
     })
   
 
@@ -78,6 +90,8 @@ let UserProfile = () => {
 
 
   // display the /profile page: https://tapdm3.web.app/profile
+
+  console.log("public chatrooms", publicChats);
   return (
     <section style={CenterThePage}>
 
@@ -96,7 +110,7 @@ let UserProfile = () => {
           <br />
 
 
-          <button>Find a chat</button>          
+    
           <br />
 
 
@@ -104,16 +118,67 @@ let UserProfile = () => {
 
           
           {
-            chats.length === 0 ? <div>You haven't created a chat yet silly goose!</div> : null
+            usersChats.length === 0 ? <div>You haven't created a chat yet silly goose!</div> : null
           }
           {/* 
 
           This will create a list of links that send you to a chat room based on the ID created
           
           */}
-          {chats ? chats.map(item => <Link style={{textAlign: 'center'}} to={`/chat/${item}`}>{item}</Link>) : null}
+          {/* {usersChats ? usersChats.map(item => <Link style={{textAlign: 'center'}} to={`/chat/${item}`}>{item}</Link>) : null} */}
+
+        {usersChats ? ( 
+          <div style={{ width: '600px', display: 'flex', flexWrap: 'wrap'}}>
+          {usersChats.map(item => (
+            <Link 
+            to={`/chat/${item}`}
+            key={item} 
+            style={{ 
+              width: 150, height: 200, 
+              padding: 10, margin: 12, 
+              borderRadius: 12, border: '1px solid black',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'
+            }}>
+              {item.split("-")[1]}
+              {/* <div>{item.nameOfChat}</div>
+              <div style={{
+                display: 'flex', flexDirection: 'column', justifyContent: 'center'
+              }}>
+                {item.topics.map(topicItem => <div key={topicItem}>{topicItem}</div>)}
+              </div> */}
+            </Link>
+          ))}
+         </div>  
+        ) : null}
+  
+
+
+
 
         </div>
+          <h3>Public Chats</h3>
+          <div style={{ width: '600px', display: 'flex', flexWrap: 'wrap'}}>
+            {publicChats.map(item => (
+              <Link 
+              to={`/chat/${item.id}`}
+              key={item.id} 
+              style={{ 
+                width: 150, height: 200, 
+                padding: 10, margin: 12, 
+                borderRadius: 12, border: '1px solid black',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'
+              }}>
+                <div>{item.nameOfChat}</div>
+                <div style={{
+                  display: 'flex', flexDirection: 'column', justifyContent: 'center'
+                }}>
+                  {item.topics.map(topicItem => <div key={topicItem}>{topicItem}</div>)}
+                </div>
+              </Link>
+            ))}
+
+          </div>
+
 
     </section>
   )
