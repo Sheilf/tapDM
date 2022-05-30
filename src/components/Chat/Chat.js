@@ -6,7 +6,7 @@ import '../../database/firebase';
 
 import { CenterThePage, CenterColumnWithFlexbox } from '../../styles/globalStyles';
 import { useParams } from 'react-router';
-import { CHATS } from '../../common/commonElements';
+import { CHATS, USERS } from '../../common/commonElements';
 
 
 let Chat = () => {
@@ -24,6 +24,11 @@ let Chat = () => {
   const [messages, setMessages] = useState([]);
 
 
+
+  const getUserIdFromParams = () => {
+    const split = chatID.split("-")
+    return split[0];
+  }
 
   /**
    * @description this functions goes through each message document in the database and sets it to * state for rendering
@@ -68,11 +73,22 @@ let Chat = () => {
 
   // runs a process to update list of collections with a new update.
   const sendDM = (event) => {
-
     CHATS.doc(chatID).collection("messages").doc().set({message: updateDM}).then(()=>{
       getAndSetMessages();
     })
+  }
 
+  const subscribeToChat = (event) => {  
+
+    // create a subscriber list under the chat
+    CHATS.doc(chatID).collection("subscribers").doc(getUserIdFromParams()).set({
+      dateSubscribed: Date.now()
+    })
+    
+    // create a set of chat IDs to a user
+    USERS.doc(getUserIdFromParams()).collection("subscriptions").doc(chatID).set({
+      dateSubscribed: Date.now()
+    })
   }
 
 
@@ -106,6 +122,8 @@ let Chat = () => {
         <label>Type your message here</label>
         <input type="text" onChange={(event) => setUpdateDM(event.target.value)} />
         <button onClick={sendDM}>send it!</button>
+
+        <button onClick={subscribeToChat}>subscribe to chat</button>
       </div>
 
     </section>

@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
 import 'firebase/compat/auth';
-
 import '../../database/firebase';
+
 import { firebaseAuth, firestoreDB } from '../../database/firebase';
 import { CenterColumnWithFlexbox, CenterThePage } from '../../styles/globalStyles';
 import { Link } from 'react-router-dom';
@@ -24,19 +24,22 @@ let UserProfile = () => {
   const [usersChats, setChats] = useState([]);
 
   const [publicChats, setPublicChats] = useState([]);
+
+  const [subscribedChats, setSubscribedChats] = useState([]);
+
   // start the component
   useEffect(() => {
 
     //get the collection of users stored in the database
     USERS = firestoreDB.collection("users");
 
-    //this process will run since you've logged in.
-    // It will grant you basic data about the user that just logged in.
-    // this data can be used to define the user by user ID, 
-    // which is how you will identify the user in the database
-    // Firestore uses Collection > document > collection > document > collection ... and so on.
-    // So in this case it's Collection(Users) > Document(userID).
-    // In the future it may grow. Perhaps the user will have a collection of chats with chat ids and so on.
+
+
+    /**
+     * //This function initiates the user's profile after logging in.
+     * 
+     * 
+     */
     firebaseAuth.onAuthStateChanged(user=>{
 
       // get the user's document based on the users ID
@@ -47,6 +50,7 @@ let UserProfile = () => {
             firstVisit: false,
           })
 
+          
           if(doc.data().chats){
             setChats(doc.data().chats);
           }else{
@@ -64,7 +68,6 @@ let UserProfile = () => {
 
         }
 
-
         // when you're done processing the database, add some data to state so you can display a user profile. 
         // Do not add chats to state unless you wanna do some shiny CSS shit
         setDbUser({ 
@@ -74,6 +77,7 @@ let UserProfile = () => {
         })
       })
 
+      // get a basic social feed of created chats
       CHATS.get().then((querySnapshot)=>{
         const publicChatrooms = querySnapshot.docs.map((doc)=>{
           const { createdBy, nameOfChat, topics, dateCreated } = doc.data()
@@ -83,6 +87,15 @@ let UserProfile = () => {
         setPublicChats(publicChatrooms)
       })
 
+
+      // get the list of chats subscribed to by the logged in user
+      USERS.doc(user.uid).collection("subscriptions").get().then((querySnapshot)=>{
+        const subscribedChatrooms = querySnapshot.docs.map((doc)=>{
+          return doc.id
+        })
+
+        setSubscribedChats(subscribedChatrooms)
+      })
     })
   
 
@@ -90,8 +103,6 @@ let UserProfile = () => {
 
 
   // display the /profile page: https://tapdm3.web.app/profile
-
-  console.log("public chatrooms", publicChats);
   return (
     <section style={CenterThePage}>
 
@@ -114,19 +125,18 @@ let UserProfile = () => {
           <br />
 
 
-          <h3>Your Chats</h3>
-
           
-          {
-            usersChats.length === 0 ? <div>You haven't created a chat yet silly goose!</div> : null
-          }
-          {/* 
+
+        {
+          usersChats.length === 0 ? null : <h3>Your Chats</h3>
+        }
+
+
+        {/* 
 
           This will create a list of links that send you to a chat room based on the ID created
-          
-          */}
-          {/* {usersChats ? usersChats.map(item => <Link style={{textAlign: 'center'}} to={`/chat/${item}`}>{item}</Link>) : null} */}
-
+        
+        */}
         {usersChats ? ( 
           <div style={{ width: '600px', display: 'flex', flexWrap: 'wrap'}}>
           {usersChats.map(item => (
@@ -137,15 +147,35 @@ let UserProfile = () => {
               width: 150, height: 200, 
               padding: 10, margin: 12, 
               borderRadius: 12, border: '1px solid black',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'
+              display: 'flex', flexDirection: 'column', 
+              alignItems: 'center', justifyContent: 'space-between'
             }}>
               {item.split("-")[1]}
-              {/* <div>{item.nameOfChat}</div>
-              <div style={{
-                display: 'flex', flexDirection: 'column', justifyContent: 'center'
-              }}>
-                {item.topics.map(topicItem => <div key={topicItem}>{topicItem}</div>)}
-              </div> */}
+
+            </Link>
+          ))}
+         </div>  
+        ) : null}
+
+        {
+          subscribedChats.length === 0 ?  null : <h3>Subscriptions</h3>
+        } 
+
+        {subscribedChats ? ( 
+          <div style={{ width: '600px', display: 'flex', flexWrap: 'wrap'}}>
+          {subscribedChats.map(item => (
+            <Link 
+            to={`/chat/${item}`}
+            key={item} 
+            style={{ 
+              width: 150, height: 200, 
+              padding: 10, margin: 12, 
+              borderRadius: 12, border: '1px solid black',
+              display: 'flex', flexDirection: 'column', 
+              alignItems: 'center', justifyContent: 'space-between'
+            }}>
+              {item.split("-")[1]}
+
             </Link>
           ))}
          </div>  
@@ -156,7 +186,11 @@ let UserProfile = () => {
 
 
         </div>
-          <h3>Public Chats</h3>
+
+          {
+            publicChats.length === 0 ?  null : <h3>Discovery</h3>
+          } 
+
           <div style={{ width: '600px', display: 'flex', flexWrap: 'wrap'}}>
             {publicChats.map(item => (
               <Link 
