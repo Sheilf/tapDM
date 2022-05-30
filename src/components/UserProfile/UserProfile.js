@@ -138,7 +138,7 @@ let UserProfile = () => {
         
         */}
         {usersChats ? ( 
-          <div style={{ width: '600px', display: 'flex', flexWrap: 'wrap'}}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
           {usersChats.map(item => (
             <Link 
             to={`/chat/${item}`}
@@ -162,7 +162,7 @@ let UserProfile = () => {
         } 
 
         {subscribedChats ? ( 
-          <div style={{ width: '600px', display: 'flex', flexWrap: 'wrap'}}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
           {subscribedChats.map(item => (
             <Link 
             to={`/chat/${item}`}
@@ -191,7 +191,7 @@ let UserProfile = () => {
             publicChats.length === 0 ?  null : <h3>Discovery</h3>
           } 
 
-          <div style={{ width: '600px', display: 'flex', flexWrap: 'wrap'}}>
+          <div style={{  display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
             {publicChats.map(item => (
               <Link 
               to={`/chat/${item.id}`}
