@@ -58,3 +58,22 @@ export const CenterColumnWithFlexbox = {
 export const SideInputLabel = {
   display: 'flex',
 }
+
+export const ChatsContainer = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'center',
+}
+
+export const ChatLink = {
+  width: 150,
+  height: 200, 
+  padding: 10,
+  margin: 12, 
+  borderRadius: 12,
+  border: '1px solid black',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center', 
+  justifyContent: 'space-between'
+}

@@ -4,7 +4,7 @@ import 'firebase/compat/auth';
 import '../../database/firebase';
 
 import { firebaseAuth, firestoreDB } from '../../database/firebase';
-import { CenterColumnWithFlexbox, CenterThePage } from '../../styles/globalStyles';
+import { CenterColumnWithFlexbox, CenterThePage, ChatLink, ChatsContainer } from '../../styles/globalStyles';
 import { Link } from 'react-router-dom';
 import { CHATS } from '../../common/commonElements';
 
@@ -118,101 +118,65 @@ let UserProfile = () => {
 
           {/* Clicking this link will send you to the create chat page */}
           <Link to="/chat/create">Create chat</Link>          
+
+          <br />
           <br />
 
 
-    
-          <br />
-
-
-          
-
+        
         {
           usersChats.length === 0 ? null : <h3>Your Chats</h3>
         }
-
-
-        {/* 
-
-          This will create a list of links that send you to a chat room based on the ID created
-        
-        */}
         {usersChats ? ( 
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
-          {usersChats.map(item => (
-            <Link 
-            to={`/chat/${item}`}
-            key={item} 
-            style={{ 
-              width: 150, height: 200, 
-              padding: 10, margin: 12, 
-              borderRadius: 12, border: '1px solid black',
-              display: 'flex', flexDirection: 'column', 
-              alignItems: 'center', justifyContent: 'space-between'
-            }}>
-              {item.split("-")[1]}
+          <div style={ChatsContainer}>
+            {usersChats.map(item => (
+              <Link 
+              to={`/chat/${item}`}
+              key={item} 
+              style={ChatLink}>
+                {item.split("-")[1]}
 
-            </Link>
-          ))}
+              </Link>
+            ))}
          </div>  
         ) : null}
 
         {
           subscribedChats.length === 0 ?  null : <h3>Subscriptions</h3>
         } 
-
         {subscribedChats ? ( 
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
-          {subscribedChats.map(item => (
-            <Link 
-            to={`/chat/${item}`}
-            key={item} 
-            style={{ 
-              width: 150, height: 200, 
-              padding: 10, margin: 12, 
-              borderRadius: 12, border: '1px solid black',
-              display: 'flex', flexDirection: 'column', 
-              alignItems: 'center', justifyContent: 'space-between'
-            }}>
-              {item.split("-")[1]}
-
-            </Link>
-          ))}
-         </div>  
-        ) : null}
-  
-
-
-
-
-        </div>
-
-          {
-            publicChats.length === 0 ?  null : <h3>Discovery</h3>
-          } 
-
-          <div style={{  display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {publicChats.map(item => (
+          <div style={ChatsContainer}>
+            {subscribedChats.map(item => (
               <Link 
-              to={`/chat/${item.id}`}
-              key={item.id} 
-              style={{ 
-                width: 150, height: 200, 
-                padding: 10, margin: 12, 
-                borderRadius: 12, border: '1px solid black',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'
-              }}>
-                <div>{item.nameOfChat}</div>
-                <div style={{
-                  display: 'flex', flexDirection: 'column', justifyContent: 'center'
-                }}>
-                  {item.topics.map(topicItem => <div key={topicItem}>{topicItem}</div>)}
-                </div>
+              to={`/chat/${item}`}
+              key={item} 
+              style={ChatLink}>
+                {item.split("-")[1]}
+
               </Link>
             ))}
+         </div>  
+        ) : null}
+
+
+        {
+          publicChats.length === 0 ?  null : <h3>Discovery</h3>
+        }
+        <div style={ChatsContainer}>
+          {publicChats.map(item => (
+            <Link 
+            to={`/chat/${item.id}`}
+            key={item.id} 
+            style={ChatLink}>
+              <div>{item.nameOfChat}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                {item.topics.map(topicItem => <div key={topicItem}>{topicItem}</div>)}
+              </div>
+            </Link>
+          ))}
 
           </div>
-
+        </div>
 
     </section>
   )
